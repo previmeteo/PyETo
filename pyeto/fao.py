@@ -279,7 +279,7 @@ def et_rad(latitude, sol_dec, sha, ird):
     return tmp1 * SOLAR_CONSTANT * ird * (tmp2 + tmp3)
 
 
-def fao56_penman_monteith(net_rad, t, ws, svp, avp, delta_svp, psy, shf=0.0):
+def fao56_penman_monteith(net_rad, t, ws, svp, avp, delta_svp, psy, shf=0.0, nb_hours=24):
     """
     Estimate reference evapotranspiration (ETo) from a hypothetical
     short grass reference surface using the FAO-56 Penman-Monteith equation.
@@ -303,13 +303,14 @@ def fao56_penman_monteith(net_rad, t, ws, svp, avp, delta_svp, psy, shf=0.0):
         reasonable for a daily or 10-day time steps). For monthly time steps
         *shf* can be estimated using ``monthly_soil_heat_flux()`` or
         ``monthly_soil_heat_flux2()``.
+    :param nb_hours: from 1 to 24 hours (default is 24)
     :return: Reference evapotranspiration (ETo) from a hypothetical
         grass reference surface [mm day-1].
     :rtype: float
     """
     a1 = (0.408 * (net_rad - shf) * delta_svp /
           (delta_svp + (psy * (1 + 0.34 * ws))))
-    a2 = (900 * ws / t * (svp - avp) * psy /
+    a2 = ((900 / nb_hours) * ws / t * (svp - avp) * psy /
           (delta_svp + (psy * (1 + 0.34 * ws))))
     return a1 + a2
 
