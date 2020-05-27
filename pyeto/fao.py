@@ -313,8 +313,8 @@ def fao56_penman_monteith(net_rad, t, ws, svp, avp, delta_svp, psy, nb_hours):
           (delta_svp + (psy * (1 + 0.34 * ws))))
     a2 = (coef * ws / t * (svp - avp) * psy /
           (delta_svp + (psy * (1 + 0.34 * ws))))
+    print('a1 : ' + str(a1) + ' a2 : ' + str(a2))
     return a1 + a2
-
 
 def hargreaves(tmin, tmax, tmean, et_rad):
     """
